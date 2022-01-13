@@ -1,0 +1,9 @@
+{
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "svelte",
+    "json"
+  ],
+  "typescript.preferences.importModuleSpecifier": "relative"
+}
