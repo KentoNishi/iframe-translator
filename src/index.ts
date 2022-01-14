@@ -19,7 +19,7 @@ const messageCallback = (payload: {
   const e = document.createElement('div');
   const data: TranslateRequest = JSON.parse(payload.data);
   e.innerText = data.text;
-  const randomID = data.messageID.slice(0, -3);
+  const randomID = data.messageID.replace(/[^a-zA-Z0-9]/g, '');
   e.id = randomID;
   document.body.appendChild(e);
   (window as any).google.translate.TranslateElement({}, e.id);
