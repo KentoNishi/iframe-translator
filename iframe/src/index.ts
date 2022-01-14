@@ -10,6 +10,9 @@ let wrapper: HTMLDivElement | null = null;
   wrapper = document.createElement('div');
   wrapper.id = 'parent-wrapper';
   document.body.appendChild(wrapper);
+  window.parent.postMessage({
+    type: 'loaded'
+  } as LoadedPacket, '*');
 };
 
 const messageCallback = (payload: {
@@ -62,9 +65,3 @@ const messageCallback = (payload: {
 
 window.addEventListener('message', messageCallback);
 (window as any).translate = (data: string) => messageCallback({ data }, true);
-
-window.addEventListener('load', () => {
-  window.parent.postMessage({
-    type: 'loaded'
-  } as LoadedPacket, '*');
-});
