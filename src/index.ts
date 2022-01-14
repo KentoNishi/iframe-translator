@@ -19,7 +19,8 @@ const messageCallback = (payload: {
   const e = document.createElement('div');
   const data: TranslateRequest = JSON.parse(payload.data);
   e.innerText = data.text;
-  e.id = data.messageID;
+  const randomID = Date.now().toString();
+  e.id = randomID;
   document.body.appendChild(e);
   (window as any).google.translate.TranslateElement({}, e.id);
   const mutationObserver = new MutationObserver(() => {
@@ -36,7 +37,7 @@ const messageCallback = (payload: {
       if (!calledViaTranslate) {
         window.parent.postMessage(JSON.stringify(response), '*');
       }
-      document.querySelectorAll(`#${data.messageID}`).forEach(e => e.remove());
+      document.querySelectorAll(`#${randomID}`).forEach(e => e.remove());
       mutationObserver.disconnect();
       e.remove();
     }
