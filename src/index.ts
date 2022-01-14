@@ -25,7 +25,7 @@ const messageCallback = (payload: {
   (window as any).google.translate.TranslateElement({}, e.id);
   const destroy = () => {
     mutationObserver.disconnect();
-    e.remove();
+    e.outerHTML = '';
     document.querySelectorAll(`#${randomID}`)?.forEach(e => e.remove());
   };
   const mutationObserver = new MutationObserver(() => {
@@ -45,7 +45,6 @@ const messageCallback = (payload: {
       destroy();
     }
   });
-  setTimeout(destroy, 5000);
   mutationObserver.observe(e, {
     attributes: true, childList: true, characterData: true
   });
