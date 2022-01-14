@@ -9,6 +9,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./iframe
     steps:
       - uses: actions/checkout@v2
 
