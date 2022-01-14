@@ -4,7 +4,7 @@ let targetLanguage = 'en';
 
 (window as any).googleTranslateElementInit = () => {
   setInterval(() => {
-    document.body.scrollTop = document.body.scrollHeight;
+    document.body.scrollTop = document.body.scrollHeight * 2;
     const e: HTMLInputElement | null = document.querySelector('.goog-te-combo');
     if (e) {
       e.value = targetLanguage;
@@ -19,10 +19,15 @@ const messageCallback = (payload: {
   const e = document.createElement('div');
   const data: TranslateRequest = JSON.parse(payload.data);
   e.innerText = data.text;
-  const randomID = Date.now().toString();
+  const randomID = data.messageID.slice(0, -3);
   e.id = randomID;
   document.body.appendChild(e);
   (window as any).google.translate.TranslateElement({}, e.id);
+  const destroy = () => {
+    mutationObserver.disconnect();
+    e.remove();
+    document.querySelectorAll(`#${randomID}`)?.forEach(e => e.remove());
+  };
   const mutationObserver = new MutationObserver(() => {
     const textElem = e.querySelector('font');
     if (textElem && textElem.textContent !== data.text) {
@@ -37,11 +42,10 @@ const messageCallback = (payload: {
       if (!calledViaTranslate) {
         window.parent.postMessage(JSON.stringify(response), '*');
       }
-      document.querySelectorAll(`#${randomID}`).forEach(e => e.remove());
-      mutationObserver.disconnect();
-      e.remove();
+      destroy();
     }
   });
+  setTimeout(destroy, 5000);
   mutationObserver.observe(e, {
     attributes: true, childList: true, characterData: true
   });
