@@ -4,3 +4,7 @@ export interface TranslateRequest {
   text: string;
   messageID: string;
 }
+
+export interface LoadedPacket {
+  type: 'loaded';
+}

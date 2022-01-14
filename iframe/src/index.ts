@@ -1,4 +1,4 @@
-import { TranslateRequest } from './types';
+import { LoadedPacket, TranslateRequest } from './types';
 
 let targetLanguage = 'en';
 let wrapper: HTMLDivElement | null = null;
@@ -62,3 +62,9 @@ const messageCallback = (payload: {
 
 window.addEventListener('message', messageCallback);
 (window as any).translate = (data: string) => messageCallback({ data }, true);
+
+window.addEventListener('load', () => {
+  window.parent.postMessage({
+    type: 'loaded'
+  } as LoadedPacket, '*');
+});
