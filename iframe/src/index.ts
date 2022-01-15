@@ -36,7 +36,7 @@ const messageCallback = (payload: {
       e.value = targetLanguage;
       e.dispatchEvent(new Event('change'));
     }
-  }, 100);
+  }, 1000);
   const mutationObserver = new MutationObserver(() => {
     const textElem = e.querySelector('font');
     if (textElem && textElem.textContent !== data.text) {
