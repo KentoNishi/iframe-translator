@@ -5,5 +5,13 @@
   "main": "index.js",
   "repository": "https://github.com/KentoNishi/iframe-translator",
   "author": "Kento Nishi",
-  "license": "MIT"
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsc index.ts",
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "vite": "^2.5.4"
+  }
 }
