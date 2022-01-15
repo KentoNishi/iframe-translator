@@ -10,9 +10,9 @@ let wrapper: HTMLDivElement | null = null;
   wrapper = document.createElement('div');
   wrapper.id = 'parent-wrapper';
   document.body.appendChild(wrapper);
-  window.parent.postMessage({
+  window.parent.postMessage(JSON.stringify({
     type: 'loaded'
-  } as LoadedPacket, '*');
+  } as LoadedPacket), '*');
 };
 
 const messageCallback = (payload: {
