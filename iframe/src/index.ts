@@ -1,12 +1,13 @@
-import { LoadedPacket, TranslateRequest } from './types';
+import { LoadedPacket, TranslateRequest } from '../../package/types';
 
 let targetLanguage = 'en';
 let wrapper: HTMLDivElement | null = null;
+let initialized = false;
 
 (window as any).googleTranslateElementInit = () => {
   setInterval(() => {
     document.body.scrollTop = document.body.scrollHeight * 2;
-  }, 1000);
+  }, 0);
   wrapper = document.createElement('div');
   wrapper.id = 'parent-wrapper';
   document.body.appendChild(wrapper);
@@ -17,7 +18,7 @@ let wrapper: HTMLDivElement | null = null;
 
 const messageCallback = (payload: {
   data: string;
-}, calledViaTranslate=false) => {
+}) => {
   if (!wrapper) return;
   const e = document.createElement('div');
   const data: TranslateRequest = JSON.parse(payload.data);
@@ -30,13 +31,16 @@ const messageCallback = (payload: {
     e.outerHTML = '';
     document.querySelectorAll(`#${randomID}`)?.forEach(e => e.remove());
   };
-  setTimeout(() => {
-    const e: HTMLInputElement | null = document.querySelector('.goog-te-combo');
-    if (e) {
-      e.value = targetLanguage;
-      e.dispatchEvent(new Event('change'));
-    }
-  }, 100);
+  if (!initialized) {
+    setTimeout(() => {
+      const e: HTMLInputElement | null = document.querySelector('.goog-te-combo');
+      if (e) {
+        e.value = targetLanguage;
+        e.dispatchEvent(new Event('change'));
+      }
+    }, 500);
+    initialized = true;
+  }
   const mutationObserver = new MutationObserver(() => {
     const textElem = e.querySelector('font');
     if (textElem && textElem.textContent !== data.text) {
@@ -47,9 +51,7 @@ const messageCallback = (payload: {
         type: 'response',
         messageID: data.messageID,
       };
-      if (!calledViaTranslate) {
-        window.parent.postMessage(JSON.stringify(response), '*');
-      }
+      window.parent.postMessage(JSON.stringify(response), '*');
       destroy();
       clearTimeout(eliminator);
     }
@@ -64,4 +66,3 @@ const messageCallback = (payload: {
 };
 
 window.addEventListener('message', messageCallback);
-(window as any).translate = (data: string) => messageCallback({ data }, true);
