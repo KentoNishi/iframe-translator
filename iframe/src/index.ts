@@ -28,7 +28,7 @@ const messageCallback = (payload: {
   wrapper.appendChild(e);
   const destroy = () => {
     mutationObserver.disconnect();
-    e.outerHTML = '';
+    e.remove();
     document.querySelectorAll(`#${randomID}`)?.forEach(e => e.remove());
   };
   if (!initialized) {

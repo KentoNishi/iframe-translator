@@ -5,6 +5,16 @@ export type IframeTranslatorClient = {
   destroy: () => void;
 };
 
+function makeID(length: number) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for ( let i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 export function getClient(
   host='https://kentonishi.github.io/iframe-translator'
   // host='http://localhost:8000/iframe-translator/'
@@ -30,7 +40,7 @@ export function getClient(
       text: string,
       targetLanguage = 'en',
     ): Promise<string> {
-      const id = `iframe-translator-${Date.now()}`;
+      const id = `iframe-translator-${makeID(69)}`;
       return new Promise(resolve => {
         callbacks[id] = resolve;
         iframe.contentWindow.postMessage(JSON.stringify({
