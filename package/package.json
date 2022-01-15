@@ -9,8 +9,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc --target es6 --declaration --outDir ./dist index.ts && cp package.json dist/package.json && cp ../README.md dist/README.md && cp ../LICENSE dist/LICENSE",
-    "dev": "vite",
-    "npm": "npm publish dist --access public"
+    "dev": "vite"
   },
   "devDependencies": {
     "vite": "^2.5.4"

@@ -1,10 +1,10 @@
-name: Deploy Package
+name: Publish Package
 
 on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-20.04
     defaults:
       run:
@@ -25,6 +25,6 @@ jobs:
           yarn build
       - name: Publish
         run: |
-          yarn npm
+          npm publish dist --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
