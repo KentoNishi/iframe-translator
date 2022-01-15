@@ -7,7 +7,7 @@ let initialized = false;
 (window as any).googleTranslateElementInit = () => {
   setInterval(() => {
     document.body.scrollTop = document.body.scrollHeight * 2;
-  }, 0);
+  }, 1000);
   wrapper = document.createElement('div');
   wrapper.id = 'parent-wrapper';
   document.body.appendChild(wrapper);
