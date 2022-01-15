@@ -1,4 +1,4 @@
-import { LoadedPacket, TranslateRequest } from './types';
+import { LoadedPacket, TranslateRequest } from '../../shared/types';
 
 let targetLanguage = 'en';
 let wrapper: HTMLDivElement | null = null;

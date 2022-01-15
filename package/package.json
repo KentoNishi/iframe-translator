@@ -8,8 +8,9 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "tsc index.ts",
-    "dev": "vite"
+    "build": "tsc index.ts --target es6 --declaration && mkdir -p dist && cp index.js dist/index.js && cp index.d.ts ../index.d.ts && cp package.json dist/package.json && cp ../README.md dist/README.md && cp ../LICENSE dist/LICENSE",
+    "dev": "vite",
+    "npm": "npm publish dist --access public"
   },
   "devDependencies": {
     "vite": "^2.5.4"
