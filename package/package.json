@@ -1,6 +1,6 @@
 {
   "name": "iframe-translator",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Translate text for free in the browser with iframe shenanigans",
   "main": "index.js",
   "repository": "https://github.com/KentoNishi/iframe-translator",
@@ -9,7 +9,9 @@
   "type": "module",
   "scripts": {
     "build": "tsc --target es6 --declaration --outDir ./dist index.ts && cp package.json dist/package.json && cp ../README.md dist/README.md && cp ../LICENSE dist/LICENSE",
-    "dev": "vite"
+    "dev": "vite",
+    "prepublish": "cp ../README.md README.md",
+    "postpublish": "rm README.md"
   },
   "devDependencies": {
     "vite": "^2.5.4"

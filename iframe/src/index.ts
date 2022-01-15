@@ -1,4 +1,4 @@
-import { LoadedPacket, TranslateRequest } from '../../package/types';
+import { LoadedPacket, TranslateRequest } from './types';
 
 let targetLanguage = 'en';
 let wrapper: HTMLDivElement | null = null;
@@ -36,7 +36,7 @@ const messageCallback = (payload: {
       e.value = targetLanguage;
       e.dispatchEvent(new Event('change'));
     }
-  }, 1000);
+  }, 100);
   const mutationObserver = new MutationObserver(() => {
     const textElem = e.querySelector('font');
     if (textElem && textElem.textContent !== data.text) {
