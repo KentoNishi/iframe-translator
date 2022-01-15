@@ -1,12 +1,14 @@
 import { LoadedPacket, TranslateRequest } from './types';
 
+export type IframeTranslatorClient = {
+  translate: (text: string, targetLanguage: string) => Promise<string>;
+  destroy: () => void;
+};
+
 export function getClient(
   host='https://kentonishi.github.io/iframe-translator'
   // host='http://localhost:8000/iframe-translator/'
-): Promise<{
-  translate: (text: string, targetLanguage: string) => Promise<string>;
-  destroy: () => void;
-}> {
+): Promise<IframeTranslatorClient> {
   return new Promise(resolveParent => {
     const iframe: HTMLIFrameElement =
       document.querySelector('#iframe-translator') || document.createElement('iframe');
