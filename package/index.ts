@@ -1,4 +1,4 @@
-import { LoadedPacket, TranslateRequest } from '../shared/types';
+import { LoadedPacket, TranslateRequest } from './types';
 
 export function getClient(
   host='https://kentonishi.github.io/iframe-translator'
