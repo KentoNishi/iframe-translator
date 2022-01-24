@@ -33,6 +33,7 @@ export function getClient(
     iframe.style.pointerEvents = 'none';
     iframe.style.border = 'none';
     iframe.style.filter = 'opacity(0)';
+    // iframe.style.backgroundColor = 'red';
 
     let callbacks: { [key: string]: CallableFunction } = {};
 

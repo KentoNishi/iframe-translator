@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "allowJs": true,
+    "checkJs": true,
+    "typeRoots": [
+    ]
+  },
+  "include": [
+    "**/*.d.ts",
+    "**/*.ts",
+  ],
+  "exclude": [
+    "**/dist/"
+  ]
+}

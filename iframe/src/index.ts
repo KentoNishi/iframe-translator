@@ -6,9 +6,12 @@ let initialized = false;
 
 (window as any).googleTranslateElementInit = () => {
   setInterval(() => {
-    document.body.scrollTop = document.body.scrollHeight * 2;
-    if (document.querySelector('.goog-te-button').parentElement.parentElement.style.display !== 'none') {
-      (document.querySelector('.goog-te-button button') as HTMLButtonElement).click();
+    try {
+      document.body.scrollTop = document.body.scrollHeight * 2;
+      if (document.querySelector('.goog-te-button').parentElement.parentElement.style.display !== 'none') {
+        (document.querySelector('.goog-te-button button') as HTMLButtonElement).click();
+      }
+    } catch (e) {
     }
   }, 1000);
   wrapper = document.createElement('div');
@@ -69,3 +72,11 @@ const messageCallback = (payload: {
 };
 
 window.addEventListener('message', messageCallback);
+
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-ignore
+if (import.meta.hot) {
+  // @ts-ignore
+  import.meta.hot.accept();
+}
+
