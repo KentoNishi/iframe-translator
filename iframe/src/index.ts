@@ -12,12 +12,13 @@ const languageSelectorElements = () => Array.from(
   setInterval(() => {
     try {
       document.body.scrollTop = document.body.scrollHeight * 2;
-      const button = (
+      const buttonParent = (
         document.querySelector('.goog-te-banner-frame') as HTMLIFrameElement
       ).contentWindow.document.querySelector('.goog-te-button') as HTMLInputElement;
-      if (button.parentElement.parentElement.style.display === 'none') {
+      if (buttonParent.parentElement.parentElement.style.display === 'none') {
         return;
       }
+      const button = buttonParent.querySelector('button') as HTMLButtonElement;
       button.click();
     } catch (e) {
     }
