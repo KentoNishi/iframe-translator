@@ -12,10 +12,13 @@ const languageSelectorElements = () => Array.from(
   setInterval(() => {
     try {
       document.body.scrollTop = document.body.scrollHeight * 2;
-      if (document.querySelector('.goog-te-button').parentElement.parentElement.style.display === 'none') {
+      const button = (
+        document.querySelector('.goog-te-banner-frame') as HTMLIFrameElement
+      ).contentWindow.document.querySelector('.goog-te-button') as HTMLInputElement;
+      if (button.parentElement.parentElement.style.display === 'none') {
         return;
       }
-      (document.querySelector('.goog-te-button button') as HTMLButtonElement).click();
+      button.click();
     } catch (e) {
     }
   }, 1000);
