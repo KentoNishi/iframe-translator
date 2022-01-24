@@ -5,7 +5,7 @@ export type IframeTranslatorClient = {
   destroy: () => void;
 };
 
-export const availableLanguages = [
+export const AvailableLanguages = [
   'Afrikaans',
   'Albanian',
   'Amharic',
