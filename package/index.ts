@@ -17,8 +17,8 @@ function makeID(length: number) {
 }
 
 export function getClient(
-  host='https://kentonishi.github.io/iframe-translator'
-  // host='http://localhost:8000/iframe-translator/'
+  // host='https://kentonishi.github.io/iframe-translator'
+  host='http://localhost:8000/iframe-translator/'
 ): Promise<IframeTranslatorClient> {
   return new Promise(resolveParent => {
     const iframe: HTMLIFrameElement =

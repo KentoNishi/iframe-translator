@@ -1,6 +1,5 @@
 import { LoadedPacket, TranslateRequest } from '../../package/types';
 
-const targetLanguage = 'English';
 let wrapper: HTMLDivElement | null = null;
 let doc: Document | null = null;
 let initialized = false;
@@ -13,9 +12,10 @@ const languageSelectorElements = () => Array.from(
   setInterval(() => {
     try {
       document.body.scrollTop = document.body.scrollHeight * 2;
-      if (document.querySelector('.goog-te-button').parentElement.parentElement.style.display !== 'none') {
-        (document.querySelector('.goog-te-button button') as HTMLButtonElement).click();
+      if (document.querySelector('.goog-te-button').parentElement.parentElement.style.display === 'none') {
+        return;
       }
+      (document.querySelector('.goog-te-button button') as HTMLButtonElement).click();
     } catch (e) {
     }
   }, 1000);
@@ -26,20 +26,23 @@ const languageSelectorElements = () => Array.from(
   await translate({
     type: 'request',
     messageID: 'init',
-    text: 'イニシャライズ',
-    targetLanguage
+    text: '',
+    targetLanguage: 'unset'
   });
-  doc = (document.querySelector('.goog-te-menu-frame') as HTMLIFrameElement)
-    .contentWindow.document;
-  window.parent.postMessage(JSON.stringify({
-    type: 'loaded',
-    availableLanguages: languageSelectorElements().map(e =>
-      e.textContent
-    ).sort()
-  } as LoadedPacket), '*');
+  setTimeout(() => {
+    doc = (document.querySelector('.goog-te-menu-frame') as HTMLIFrameElement)
+      .contentWindow.document;
+    window.parent.postMessage(JSON.stringify({
+      type: 'loaded',
+      availableLanguages: languageSelectorElements().map(e =>
+        e.textContent
+      ).sort()
+    } as LoadedPacket), '*');
+  }, 500);
 };
 
 function refreshTargetLanguage(lang: string) {
+
   const selected = languageSelectorElements().find(e =>
     e.textContent === lang
   ) as HTMLInputElement;
@@ -65,7 +68,7 @@ function translate(data: TranslateRequest) {
       setTimeout(() => {
         const e: HTMLInputElement | null = document.querySelector('.goog-te-combo');
         if (e) {
-          e.value = targetLanguage;
+          e.value = data.targetLanguage;
           e.dispatchEvent(new Event('change'));
         }
       }, 500);
@@ -75,7 +78,7 @@ function translate(data: TranslateRequest) {
       const textElem = e.querySelector('font');
       if (textElem && textElem.textContent !== data.text) {
         const response: TranslateRequest = {
-          targetLanguage,
+          targetLanguage: data.targetLanguage,
           text: textElem.textContent,
           type: 'response',
           messageID: data.messageID,
@@ -85,15 +88,24 @@ function translate(data: TranslateRequest) {
         clearTimeout(eliminator);
       }
     });
-    const eliminator = setTimeout(() => {
+    const respondEmpty = () => {
       destroy();
-      resolve(undefined);
-    }, 5000);
+      resolve({
+        type: 'response',
+        targetLanguage: data.targetLanguage,
+        text: data.text,
+        messageID: data.messageID,
+      } as TranslateRequest);
+    };
+    const eliminator = setTimeout(respondEmpty, 5000);
     mutationObserver.observe(e, {
       attributes: true, childList: true, characterData: true
     });
     setTimeout(() => {
       (window as any).google.translate.TranslateElement({}, e.id);
+      if (!data.text) {
+        respondEmpty();
+      }
     }, 0);
   });
 }
@@ -103,9 +115,7 @@ async function messageCallback(payload: {
 }) {
   const data: TranslateRequest = JSON.parse(payload.data);
   const response = await translate(data);
-  if (response) {
-    window.parent.postMessage(JSON.stringify(response), '*');
-  }
+  window.parent.postMessage(JSON.stringify(response), '*');
 }
 
 /* eslint-disable @typescript-eslint/ban-ts-comment */
