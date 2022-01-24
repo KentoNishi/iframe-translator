@@ -1,8 +1,13 @@
 import { LoadedPacket, TranslateRequest } from '../../package/types';
 
-let targetLanguage = 'en';
+const targetLanguage = 'English';
 let wrapper: HTMLDivElement | null = null;
+let doc: Document | null = null;
 let initialized = false;
+
+const languageSelectorElements = () => Array.from(
+  doc ? doc.querySelectorAll('.goog-te-menu2 a .text') : []
+);
 
 (window as any).googleTranslateElementInit = async () => {
   setInterval(() => {
@@ -24,18 +29,28 @@ let initialized = false;
     text: 'イニシャライズ',
     targetLanguage
   });
+  doc = (document.querySelector('.goog-te-menu-frame') as HTMLIFrameElement)
+    .contentWindow.document;
   window.parent.postMessage(JSON.stringify({
     type: 'loaded',
-    availableLanguages: Array.from(
-      (document.querySelector('.goog-te-menu-frame') as HTMLIFrameElement)
-        .contentWindow.document
-        .querySelectorAll('.goog-te-menu2 .goog-te-menu2-item .text')
-    ).map(e => e.textContent)
+    availableLanguages: languageSelectorElements().map(e =>
+      e.textContent
+    ).sort()
   } as LoadedPacket), '*');
 };
 
+function refreshTargetLanguage(lang: string) {
+  const selected = languageSelectorElements().find(e =>
+    e.textContent === lang
+  ) as HTMLInputElement;
+  if (selected) {
+    selected.click();
+  }
+}
+
 function translate(data: TranslateRequest) {
   return new Promise(resolve => {
+    refreshTargetLanguage(data.targetLanguage);
     const e = document.createElement('div');
     e.innerText = data.text;
     const randomID = data.messageID.replace(/[^a-zA-Z0-9]/g, '');
@@ -59,7 +74,6 @@ function translate(data: TranslateRequest) {
     const mutationObserver = new MutationObserver(() => {
       const textElem = e.querySelector('font');
       if (textElem && textElem.textContent !== data.text) {
-        targetLanguage = data.targetLanguage;
         const response: TranslateRequest = {
           targetLanguage,
           text: textElem.textContent,

@@ -17,8 +17,8 @@ function makeID(length: number) {
 }
 
 export function getClient(
-  // host='https://kentonishi.github.io/iframe-translator'
-  host='http://localhost:8000/iframe-translator/'
+  host='https://kentonishi.github.io/iframe-translator'
+  // host='http://localhost:8000/iframe-translator/'
 ): Promise<IframeTranslatorClient> {
   return new Promise(resolveParent => {
     const iframe: HTMLIFrameElement =
@@ -33,8 +33,8 @@ export function getClient(
     iframe.style.zIndex = '1000000000';
     iframe.style.pointerEvents = 'none';
     iframe.style.border = 'none';
-    // iframe.style.filter = 'opacity(0)';
-    iframe.style.backgroundColor = 'red';
+    iframe.style.filter = 'opacity(0)';
+    // iframe.style.backgroundColor = 'red';
 
     let callbacks: { [key: string]: CallableFunction } = {};
 
