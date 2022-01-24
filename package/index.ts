@@ -40,7 +40,7 @@ export function getClient(
 
     function translate(
       text: string,
-      targetLanguage = 'en',
+      targetLanguage = 'English',
     ): Promise<string> {
       const id = `iframe-translator-${makeID(69)}`;
       return new Promise(resolve => {
