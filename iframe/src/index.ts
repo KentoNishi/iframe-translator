@@ -33,10 +33,7 @@ const languageSelectorElements = () => Array.from(
     doc = (document.querySelector('.goog-te-menu-frame') as HTMLIFrameElement)
       .contentWindow.document;
     window.parent.postMessage(JSON.stringify({
-      type: 'loaded',
-      availableLanguages: languageSelectorElements().map(e =>
-        e.textContent
-      ).sort()
+      type: 'loaded'
     } as LoadedPacket), '*');
   }, 500);
 };

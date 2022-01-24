@@ -17,11 +17,11 @@ npm i iframe-translator
 ## Usage
 
 ```ts
-import { getClient, IframeTranslatorClient } from 'iframe-translator';
+import { getClient, IframeTranslatorClient, availableLanguages } from 'iframe-translator';
 
 async function main() {
   const client: IframeTranslatorClient = await getClient();
-  console.log(client.availableLanguages); // ['Afrikaans', 'Albanian', 'Amharic', ...]
+  console.log(availableLanguages); // ['Afrikaans', 'Albanian', 'Amharic', ...]
   console.log(await client.translate('こんにちは')); // hello
   console.log(await client.translate('こんにちは', 'Korean')); // 안녕하세요
   client.destroy();

@@ -7,5 +7,4 @@ export interface TranslateRequest {
 
 export interface LoadedPacket {
   type: 'loaded';
-  availableLanguages: string[];
 }
