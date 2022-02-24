@@ -1,4 +1,5 @@
 import { LoadedPacket, TranslateRequest } from '../../package/types';
+import { AvailableLanguages } from '../../package/constants';
 
 let wrapper: HTMLDivElement | null = null;
 let doc: Document | null = null;
@@ -43,10 +44,9 @@ const languageSelectorElements = () => Array.from(
 };
 
 function refreshTargetLanguage(lang: string) {
-
-  const selected = languageSelectorElements().find(e =>
-    e.textContent === lang
-  ) as HTMLInputElement;
+  const selected = languageSelectorElements()[AvailableLanguages.findIndex(e =>
+    e === lang
+  )] as HTMLInputElement;
   if (selected) {
     selected.click();
   }

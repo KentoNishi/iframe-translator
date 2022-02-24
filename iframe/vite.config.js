@@ -4,4 +4,9 @@ export default defineConfig({
   plugins: [
   ],
   base: '/iframe-translator/',
+  server: {
+    fs:{
+      allow: ['../package', '../iframe']
+    }
+  }
 });
