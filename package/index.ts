@@ -1,5 +1,5 @@
 import { LoadedPacket, TranslateRequest } from './types';
-export { AvailableLanguages } from './constants';
+export { AvailableLanguages } from './constants.js';
 
 export type IframeTranslatorClient = {
   translate: (text: string, targetLanguage?: string) => Promise<string>;
