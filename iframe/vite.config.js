@@ -7,6 +7,7 @@ export default defineConfig({
   server: {
     fs:{
       allow: ['../package', '../iframe']
-    }
+    },
+    port: 8000
   }
 });
