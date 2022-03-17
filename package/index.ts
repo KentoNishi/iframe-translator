@@ -1,8 +1,12 @@
 import { LoadedPacket, TranslateRequest } from './types';
+import { AvailableLanguages, DefaultHost } from './constants';
 export { AvailableLanguages } from './constants';
 
 export type IframeTranslatorClient = {
-  translate: (text: string, targetLanguage?: string) => Promise<string>;
+  translate: (
+    text: string,
+    targetLanguage?: typeof AvailableLanguages[number]
+  ) => Promise<string>;
   destroy: () => void;
 };
 
@@ -17,8 +21,7 @@ function makeID(length: number) {
 }
 
 export function getClient(
-  host='https://kentonishi.github.io/iframe-translator'
-  // host='http://localhost:8000/iframe-translator/'
+  host=DefaultHost
 ): Promise<IframeTranslatorClient> {
   return new Promise(resolveParent => {
     const iframe: HTMLIFrameElement =
