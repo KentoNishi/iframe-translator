@@ -5,7 +5,7 @@ export { AvailableLanguages } from './constants';
 export type IframeTranslatorClient = {
   translate: (
     text: string,
-    targetLanguage?: typeof AvailableLanguages[number]
+    targetLanguage?: keyof typeof AvailableLanguages,
   ) => Promise<string>;
   destroy: () => void;
 };
@@ -43,7 +43,7 @@ export function getClient(
 
     function translate(
       text: string,
-      targetLanguage = 'English',
+      targetLanguage: keyof typeof AvailableLanguages = 'en',
     ): Promise<string> {
       const id = `iframe-translator-${makeID(69)}`;
       return new Promise(resolve => {
@@ -51,7 +51,7 @@ export function getClient(
         iframe.contentWindow.postMessage(JSON.stringify({
           messageID: id,
           type: 'request',
-          targetLanguage,
+          targetLanguage: AvailableLanguages[targetLanguage],
           text
         } as TranslateRequest), '*');
       });

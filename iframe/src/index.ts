@@ -43,12 +43,21 @@ const languageSelectorElements = () => Array.from(
   }, 500);
 };
 
-function refreshTargetLanguage(lang: string) {
-  const selected = languageSelectorElements()[AvailableLanguages.findIndex(e =>
-    e === lang
-  )] as HTMLInputElement;
-  if (selected) {
+function refreshTargetLanguage(lang: TranslateRequest['targetLanguage']) {
+  try {
+    const providedLanguages =
+    (window as any).google.translate
+      .TranslateElement.getInstance()
+      .B as typeof AvailableLanguages;
+    const languageCode =
+      Object.keys(providedLanguages).find(
+        key => providedLanguages[key] === lang
+      ) as keyof typeof AvailableLanguages;
+    const selected = languageSelectorElements()[
+      Object.keys(providedLanguages).indexOf(languageCode)
+    ] as HTMLInputElement;
     selected.click();
+  } catch (e) {
   }
 }
 

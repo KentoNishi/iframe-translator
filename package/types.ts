@@ -1,6 +1,8 @@
+import { AvailableLanguages } from './constants';
+
 export interface TranslateRequest {
   type: 'request' | 'response';
-  targetLanguage: string;
+  targetLanguage: typeof AvailableLanguages[keyof typeof AvailableLanguages] | 'unset';
   text: string;
   messageID: string;
 }

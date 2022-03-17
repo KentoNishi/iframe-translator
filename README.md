@@ -21,9 +21,9 @@ import { getClient, IframeTranslatorClient, AvailableLanguages } from 'iframe-tr
 
 async function main() {
   const client: IframeTranslatorClient = await getClient();
-  console.log(AvailableLanguages); // ['Afrikaans', 'Albanian', 'Amharic', ...]
+  console.log(AvailableLanguages); // { 'af': 'Afrikaans', ... }
   console.log(await client.translate('こんにちは')); // hello
-  console.log(await client.translate('こんにちは', 'Korean')); // 안녕하세요
+  console.log(await client.translate('こんにちは', 'ko')); // 안녕하세요
   client.destroy();
 }
 ```
