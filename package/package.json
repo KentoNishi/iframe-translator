@@ -1,6 +1,6 @@
 {
   "name": "iframe-translator",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Translate text for free in the browser with iframe shenanigans",
   "main": "index.js",
   "repository": "https://github.com/KentoNishi/iframe-translator",
