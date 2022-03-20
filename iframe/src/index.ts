@@ -50,8 +50,8 @@ function refreshTargetLanguage(lang: TranslateRequest['targetLanguage']) {
       .TranslateElement.getInstance()
       .B as typeof AvailableLanguages;
     const languageCode =
-      Object.keys(providedLanguages).find(
-        key => providedLanguages[key] === lang
+      Object.keys(AvailableLanguages).find(
+        key => AvailableLanguages[key] === lang
       ) as keyof typeof AvailableLanguages;
     const selected = languageSelectorElements()[
       Object.keys(providedLanguages).indexOf(languageCode)
