@@ -10,3 +10,5 @@ export interface TranslateRequest {
 export interface LoadedPacket {
   type: 'loaded';
 }
+
+export type AvailableLanguageCodes = keyof typeof AvailableLanguages;

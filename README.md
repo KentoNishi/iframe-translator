@@ -27,3 +27,8 @@ async function main() {
   client.destroy();
 }
 ```
+
+```ts
+import type { AvailableLanguageCodes } from 'iframe-translator';
+// 'af' | 'sq' | 'am' | 'ar' | ...
+```

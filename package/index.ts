@@ -1,5 +1,6 @@
 import { LoadedPacket, TranslateRequest } from './types';
 import { AvailableLanguages, DefaultHost } from './constants';
+export type { AvailableLanguageCodes } from './types';
 export { AvailableLanguages } from './constants';
 
 export type IframeTranslatorClient = {
