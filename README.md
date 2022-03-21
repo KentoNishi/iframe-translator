@@ -16,11 +16,12 @@ npm i iframe-translator
 
 ## Usage
 
+### General Usage
 ```ts
-import { getClient, IframeTranslatorClient, AvailableLanguages } from 'iframe-translator';
+import { getClient, AvailableLanguages } from 'iframe-translator';
 
 async function main() {
-  const client: IframeTranslatorClient = await getClient();
+  const client = await getClient();
   console.log(AvailableLanguages); // { 'af': 'Afrikaans', ... }
   console.log(await client.translate('こんにちは')); // hello
   console.log(await client.translate('こんにちは', 'ko')); // 안녕하세요
@@ -28,7 +29,7 @@ async function main() {
 }
 ```
 
+### Type Definitions
 ```ts
-import type { AvailableLanguageCodes } from 'iframe-translator';
-// 'af' | 'sq' | 'am' | 'ar' | ...
+import type { AvailableLanguageCodes, IframeTranslatorClient } from 'iframe-translator';
 ```
