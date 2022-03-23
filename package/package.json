@@ -8,12 +8,13 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "tsc --target es6 --declaration --outDir ./dist index.ts && cp package.json dist/package.json && cp ../README.md dist/README.md && cp ../LICENSE dist/LICENSE",
+    "build": "node build.js",
     "dev": "vite",
     "prepublish": "cp ../README.md README.md",
     "postpublish": "rm README.md"
   },
   "devDependencies": {
+    "@types/node": "^17.0.22",
     "vite": "^2.5.4"
   }
 }
