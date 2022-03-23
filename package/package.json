@@ -9,9 +9,7 @@
   "type": "module",
   "scripts": {
     "build": "node build.js",
-    "dev": "vite",
-    "prepublish": "cp ../README.md README.md",
-    "postpublish": "rm README.md"
+    "dev": "vite"
   },
   "devDependencies": {
     "@types/node": "^17.0.22",
