@@ -35,13 +35,11 @@ export function getClient(
     iframe.style.width = '100%';
     iframe.style.height = '100%';
     iframe.style.zIndex = '1000000000';
-    if ((import.meta as any).env.PROD) {
-      iframe.style.pointerEvents = 'none';
-      iframe.style.border = 'none';
-      iframe.style.filter = 'opacity(0)';
-      iframe.style.touchAction = 'none';
+    iframe.style.pointerEvents = 'none';
+    iframe.style.border = 'none';
+    iframe.style.filter = 'opacity(0)';
+    iframe.style.touchAction = 'none';
     // iframe.style.backgroundColor = 'red';
-    }
 
     let callbacks: { [key: string]: CallableFunction } = {};
 
