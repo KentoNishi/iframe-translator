@@ -47,11 +47,10 @@ function refreshTargetLanguage(lang: TranslateRequest['targetLanguage']) {
   try {
     const instance =(window as any).google.translate
       .TranslateElement.getInstance();
-    const key = Object.keys(instance).find(key => {
-      return typeof instance === 'object' && 'en' in instance[key];
+    const key = Object.keys(instance).sort().find(key => {
+      return typeof instance[key] === 'object' && 'en' in instance[key];
     });
-    const providedLanguages =
-      instance[key].providedLanguages as typeof AvailableLanguages;
+    const providedLanguages = instance[key] as typeof AvailableLanguages;
     const languageCode =
       Object.keys(AvailableLanguages).find(
         key => AvailableLanguages[key] === lang
