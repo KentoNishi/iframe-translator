@@ -8,10 +8,6 @@ Translate text for free in the browser with iframe shenanigans
 
 [View on npm](https://www.npmjs.com/package/iframe-translator)
 
-## Demo
-[Try `iframe-translator` in an interactive REPL!](https://svelte.dev/repl/3f0ce1ebbe4c4788938fd753fba2255e)
-
-
 ## Installation
 ```shell
 npm i iframe-translator
