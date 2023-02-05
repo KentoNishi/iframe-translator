@@ -3,23 +3,19 @@ import { AvailableLanguages } from '../../package/constants';
 
 let wrapper: HTMLDivElement | null = null;
 let doc: Document | null = null;
-let initialized = false;
+// let initialized = false;
 
 const languageSelectorElements = () => Array.from(
-  doc ? doc.querySelectorAll('.goog-te-menu2 a .text') : []
+  doc ? Array.from(doc.querySelectorAll('div')).find(item => item.id === ':2.menuBody').querySelectorAll('a .text') : []
 );
 
 (window as any).googleTranslateElementInit = async () => {
   setInterval(() => {
     try {
       document.body.scrollTop = document.body.scrollHeight * 2;
-      const buttonParent = (
-        document.querySelector('.goog-te-banner-frame') as HTMLIFrameElement
-      ).contentWindow.document.querySelector('.goog-te-button') as HTMLInputElement;
-      if (buttonParent.parentElement.parentElement.style.display === 'none') {
-        return;
-      }
-      const button = buttonParent.querySelector('button') as HTMLButtonElement;
+      const button = Array.from((
+        Array.from(document.querySelectorAll('iframe')).find(item => item.id === ':1.container') as HTMLIFrameElement
+      ).contentWindow.document.querySelectorAll('button')).find(item => item.id === ':1.confirm') as HTMLButtonElement;
       button.click();
     } catch (e) {
     }
@@ -35,7 +31,7 @@ const languageSelectorElements = () => Array.from(
     targetLanguage: 'unset'
   });
   setTimeout(() => {
-    doc = (document.querySelector('.goog-te-menu-frame') as HTMLIFrameElement)
+    doc = (document.querySelectorAll('iframe')[1] as HTMLIFrameElement)
       .contentWindow.document;
     window.parent.postMessage(JSON.stringify({
       type: 'loaded'
@@ -76,16 +72,17 @@ function translate(data: TranslateRequest) {
       e.remove();
       document.querySelectorAll(`#${randomID}`)?.forEach(e => e.remove());
     };
-    if (!initialized) {
-      setTimeout(() => {
-        const e: HTMLInputElement | null = document.querySelector('.goog-te-combo');
-        if (e) {
-          e.value = data.targetLanguage;
-          e.dispatchEvent(new Event('change'));
-        }
-      }, 500);
-      initialized = true;
-    }
+    // if (!initialized) {
+    //   setTimeout(() => {
+    // eslint-disable-next-line max-len
+    //     const e: HTMLInputElement | null = document.querySelector('.goog-te-combo');
+    //     if (e) {
+    //       e.value = data.targetLanguage;
+    //       e.dispatchEvent(new Event('change'));
+    //     }
+    //   }, 500);
+    //   initialized = true;
+    // }
     const mutationObserver = new MutationObserver(() => {
       const textElem = e.querySelector('font');
       if (textElem && textElem.textContent !== data.text) {
