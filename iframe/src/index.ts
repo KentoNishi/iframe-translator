@@ -31,7 +31,7 @@ const languageSelectorElements = () => Array.from(
     targetLanguage: 'unset'
   });
   setTimeout(() => {
-    doc = (document.querySelectorAll('iframe')[1] as HTMLIFrameElement)
+    doc = (document.querySelectorAll('iframe')[2] as HTMLIFrameElement)
       .contentWindow.document;
     window.parent.postMessage(JSON.stringify({
       type: 'loaded'
