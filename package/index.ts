@@ -29,17 +29,20 @@ export function getClient(
       document.querySelector('#iframe-translator') || document.createElement('iframe');
     iframe.src = host;
     iframe.id = 'iframe-translator';
-    iframe.style.position = 'fixed';
-    iframe.style.top = '0px';
-    iframe.style.left = '0px';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.zIndex = '1000000000';
-    iframe.style.pointerEvents = 'none';
-    iframe.style.border = 'none';
-    iframe.style.filter = 'opacity(0)';
-    iframe.style.touchAction = 'none';
-    // iframe.style.backgroundColor = 'red';
+    if ((import.meta as any).env.DEV) {
+      iframe.style.backgroundColor = 'red';
+    } else {
+      iframe.style.position = 'fixed';
+      iframe.style.top = '0px';
+      iframe.style.left = '0px';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.zIndex = '1000000000';
+      iframe.style.pointerEvents = 'none';
+      iframe.style.border = 'none';
+      iframe.style.filter = 'opacity(0)';
+      iframe.style.touchAction = 'none';
+    }
 
     let callbacks: { [key: string]: CallableFunction } = {};
 

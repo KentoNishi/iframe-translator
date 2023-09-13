@@ -114,6 +114,7 @@ function translate(data: TranslateRequest) {
       (window as any).google.translate.TranslateElement({}, e.id);
       if (!data.text) {
         respondEmpty();
+        clearTimeout(eliminator);
       }
     }, 0);
   });
