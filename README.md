@@ -2,6 +2,8 @@
 
 Translate text for free in the browser with iframe shenanigans
 
+<!-- ![Status: Normal](https://img.shields.io/badge/Status-Normal-green) -->
+![Status: Down](https://img.shields.io/badge/Status-Down-red)
 [![View on npm](https://img.shields.io/npm/v/iframe-translator)](https://www.npmjs.com/package/iframe-translator)
 [![Publish Package](https://github.com/KentoNishi/iframe-translator/actions/workflows/package.yaml/badge.svg)](https://github.com/KentoNishi/iframe-translator/actions/workflows/package.yaml)
 [![Deploy Frontend](https://github.com/KentoNishi/iframe-translator/actions/workflows/pages.yaml/badge.svg)](https://github.com/KentoNishi/iframe-translator/actions/workflows/pages.yaml)
