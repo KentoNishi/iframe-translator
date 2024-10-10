@@ -12,7 +12,12 @@
     "dev": "vite"
   },
   "devDependencies": {
-    "@types/node": "^17.0.22",
     "vite": "^2.5.4"
+  },
+  "resolutions": {
+    "@types/node": "20.0.0"
+  },
+  "dependencies": {
+    "@types/node": "20.0.0"
   }
 }
