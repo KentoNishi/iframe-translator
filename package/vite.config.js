@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [
     replaceCodePlugin({
       replacements: [{
-        from: 'https://kentonishi.github.io/iframe-translator',
+        from: 'https://kentonishi.com/iframe-translator',
         to: 'http://localhost:8000/iframe-translator/'
       }]
     })

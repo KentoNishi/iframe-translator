@@ -109,4 +109,4 @@ export const AvailableLanguages = {
   'yo': 'Yoruba',
   'zu': 'Zulu'
 } as const;
-export const DefaultHost = 'https://kentonishi.github.io/iframe-translator';
+export const DefaultHost = 'https://kentonishi.com/iframe-translator';
