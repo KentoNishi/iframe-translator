@@ -9,7 +9,13 @@ if (!existsSync('dist')) {
   mkdirSync('dist');
 }
 
-execSync('tsc --target es6 --module esnext --declaration --outDir ./dist index.ts');
+const command = 'tsc --target es6 --module esnext --declaration --outDir ./dist index.ts';
+try {
+  execSync(command);
+} catch (error) {
+  console.error(error.stdout.toString());
+  console.error(error.stderr.toString());
+}
 
 [
   ['package.json', 'package.json'],
