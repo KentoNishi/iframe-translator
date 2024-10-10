@@ -9,7 +9,7 @@ if (!existsSync('dist')) {
   mkdirSync('dist');
 }
 
-const command = 'tsc --target es6 --module esnext --declaration --outDir ./dist index.ts';
+const command = 'tsc --target es6 --module esnext --declaration --skipLibCheck --outDir ./dist index.ts';
 try {
   execSync(command);
 } catch (error) {
