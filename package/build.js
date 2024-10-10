@@ -15,6 +15,7 @@ try {
 } catch (error) {
   console.error(error.stdout.toString());
   console.error(error.stderr.toString());
+  throw error;
 }
 
 [
