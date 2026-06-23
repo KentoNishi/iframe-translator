@@ -53,7 +53,7 @@ export function getClient(
       const id = `iframe-translator-${makeID(69)}`;
       return new Promise(resolve => {
         callbacks[id] = resolve;
-        iframe.contentWindow.postMessage(JSON.stringify({
+        iframe.contentWindow!.postMessage(JSON.stringify({
           messageID: id,
           type: 'request',
           targetLanguage,
