@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "module": "esnext",
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "target": "es6"
+  },
+  "include": [
+    "constants.ts",
+    "index.ts",
+    "types.ts"
+  ]
+}
