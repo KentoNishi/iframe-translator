@@ -2,7 +2,7 @@ import { AvailableLanguages } from './constants';
 
 export interface TranslateRequest {
   type: 'request' | 'response';
-  targetLanguage: typeof AvailableLanguages[keyof typeof AvailableLanguages] | 'unset';
+  targetLanguage: AvailableLanguageCodes | typeof AvailableLanguages[AvailableLanguageCodes] | 'unset';
   text: string;
   messageID: string;
 }

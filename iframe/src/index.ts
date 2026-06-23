@@ -1,123 +1,77 @@
 import { LoadedPacket, TranslateRequest } from '../../package/types';
 import { AvailableLanguages } from '../../package/constants';
 
-let wrapper: HTMLDivElement | null = null;
-let doc: Document | null = null;
-// let initialized = false;
+const TRANSLATE_URL = 'https://translate.googleapis.com/translate_a/single';
+const REQUEST_TIMEOUT_MS = 5000;
 
-const languageSelectorElements = () => Array.from(
-  doc ? Array.from(doc.querySelectorAll('div')).find(item => item.id === ':2.menuBody').querySelectorAll('a .text') : []
-);
+const languageCodes = Object.keys(
+  AvailableLanguages
+) as Array<keyof typeof AvailableLanguages>;
 
-(window as any).googleTranslateElementInit = async () => {
-  setInterval(() => {
-    try {
-      document.body.scrollTop = document.body.scrollHeight * 2;
-      const button = Array.from((
-        Array.from(document.querySelectorAll('iframe')).find(item => item.id === ':1.container') as HTMLIFrameElement
-      ).contentWindow.document.querySelectorAll('button')).find(item => item.id === ':1.confirm') as HTMLButtonElement;
-      button.click();
-    } catch (e) {
-    }
-  }, 1000);
-  wrapper = document.createElement('div');
-  wrapper.id = 'parent-wrapper';
-  document.body.appendChild(wrapper);
-  window.addEventListener('message', messageCallback);
-  await translate({
-    type: 'request',
-    messageID: 'init',
-    text: '',
-    targetLanguage: 'unset'
-  });
-  setTimeout(() => {
-    doc = (document.querySelectorAll('iframe')[2] as HTMLIFrameElement)
-      .contentWindow.document;
-    window.parent.postMessage(JSON.stringify({
-      type: 'loaded'
-    } as LoadedPacket), '*');
-  }, 500);
-};
+function getTargetLanguageCode(
+  targetLanguage: TranslateRequest['targetLanguage']
+): keyof typeof AvailableLanguages | null {
+  if (targetLanguage === 'unset') return null;
 
-function refreshTargetLanguage(lang: TranslateRequest['targetLanguage']) {
-  try {
-    const instance =(window as any).google.translate
-      .TranslateElement.getInstance();
-    const key = Object.keys(instance).sort().find(key => {
-      return typeof instance[key] === 'object' && 'en' in instance[key];
-    });
-    const providedLanguages = instance[key] as typeof AvailableLanguages;
-    const languageCode =
-      Object.keys(AvailableLanguages).find(
-        key => AvailableLanguages[key] === lang
-      ) as keyof typeof AvailableLanguages;
-    const selected = languageSelectorElements()[
-      Object.keys(providedLanguages).indexOf(languageCode)
-    ] as HTMLInputElement;
-    selected.click();
-  } catch (e) {
+  if (targetLanguage in AvailableLanguages) {
+    return targetLanguage as keyof typeof AvailableLanguages;
   }
+
+  return languageCodes.find(
+    code => AvailableLanguages[code] === targetLanguage
+  ) ?? null;
 }
 
-function translate(data: TranslateRequest) {
-  return new Promise(resolve => {
-    refreshTargetLanguage(data.targetLanguage);
-    const e = document.createElement('div');
-    e.innerText = data.text;
-    const randomID = data.messageID.replace(/[^a-zA-Z0-9]/g, '');
-    e.id = randomID;
-    wrapper.appendChild(e);
-    const destroy = () => {
-      mutationObserver.disconnect();
-      e.remove();
-      document.querySelectorAll(`#${randomID}`)?.forEach(e => e.remove());
+function parseTranslatedText(value: unknown): string | null {
+  if (!Array.isArray(value) || !Array.isArray(value[0])) return null;
+
+  return value[0]
+    .map(part => Array.isArray(part) ? part[0] : '')
+    .filter(part => typeof part === 'string')
+    .join('');
+}
+
+async function translate(data: TranslateRequest): Promise<TranslateRequest> {
+  const targetLanguage = getTargetLanguageCode(data.targetLanguage);
+  if (!data.text || targetLanguage === null) {
+    return {
+      ...data,
+      type: 'response',
     };
-    // if (!initialized) {
-    //   setTimeout(() => {
-    // eslint-disable-next-line max-len
-    //     const e: HTMLInputElement | null = document.querySelector('.goog-te-combo');
-    //     if (e) {
-    //       e.value = data.targetLanguage;
-    //       e.dispatchEvent(new Event('change'));
-    //     }
-    //   }, 500);
-    //   initialized = true;
-    // }
-    const mutationObserver = new MutationObserver(() => {
-      const textElem = e.querySelector('font');
-      if (textElem && textElem.textContent !== data.text) {
-        const response: TranslateRequest = {
-          targetLanguage: data.targetLanguage,
-          text: textElem.textContent,
-          type: 'response',
-          messageID: data.messageID,
-        };
-        resolve(response);
-        destroy();
-        clearTimeout(eliminator);
-      }
+  }
+
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => {
+    controller.abort();
+  }, REQUEST_TIMEOUT_MS);
+
+  try {
+    const url = new URL(TRANSLATE_URL);
+    url.searchParams.set('client', 'gtx');
+    url.searchParams.set('sl', 'auto');
+    url.searchParams.set('tl', targetLanguage);
+    url.searchParams.set('dt', 't');
+    url.searchParams.set('q', data.text);
+
+    const response = await fetch(url.toString(), {
+      signal: controller.signal,
     });
-    const respondEmpty = () => {
-      destroy();
-      resolve({
-        type: 'response',
-        targetLanguage: data.targetLanguage,
-        text: data.text,
-        messageID: data.messageID,
-      } as TranslateRequest);
+    const result = parseTranslatedText(await response.json()) ?? data.text;
+
+    return {
+      ...data,
+      targetLanguage,
+      type: 'response',
+      text: result,
     };
-    const eliminator = setTimeout(respondEmpty, 5000);
-    mutationObserver.observe(e, {
-      attributes: true, childList: true, characterData: true
-    });
-    setTimeout(() => {
-      (window as any).google.translate.TranslateElement({}, e.id);
-      if (!data.text) {
-        respondEmpty();
-        clearTimeout(eliminator);
-      }
-    }, 0);
-  });
+  } catch (e) {
+    return {
+      ...data,
+      type: 'response',
+    };
+  } finally {
+    window.clearTimeout(timeout);
+  }
 }
 
 async function messageCallback(payload: {
@@ -128,10 +82,15 @@ async function messageCallback(payload: {
   window.parent.postMessage(JSON.stringify(response), '*');
 }
 
+window.addEventListener('message', messageCallback);
+
+window.parent.postMessage(JSON.stringify({
+  type: 'loaded'
+} as LoadedPacket), '*');
+
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-ignore
 if (import.meta.hot) {
   // @ts-ignore
   import.meta.hot.accept();
 }
-

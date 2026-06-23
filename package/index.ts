@@ -56,7 +56,7 @@ export function getClient(
         iframe.contentWindow.postMessage(JSON.stringify({
           messageID: id,
           type: 'request',
-          targetLanguage: AvailableLanguages[targetLanguage],
+          targetLanguage,
           text
         } as TranslateRequest), '*');
       });
