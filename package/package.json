@@ -3,7 +3,10 @@
   "version": "0.3.8",
   "description": "Translate text for free in the browser with iframe shenanigans",
   "main": "index.js",
-  "repository": "https://github.com/KentoNishi/iframe-translator",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KentoNishi/iframe-translator.git"
+  },
   "author": "Kento Nishi",
   "license": "MIT",
   "type": "module",
