@@ -1,7 +1,7 @@
 import { LoadedPacket, TranslateRequest } from '../../package/types';
 import { AvailableLanguages } from '../../package/constants';
 
-const TRANSLATE_URL = 'https://translate.googleapis.com/translate_a/single';
+const TRANSLATE_URL = 'https://clients5.google.com/translate_a/single';
 const REQUEST_TIMEOUT_MS = 5000;
 
 const languageCodes = Object.keys(
@@ -47,7 +47,7 @@ async function translate(data: TranslateRequest): Promise<TranslateRequest> {
 
   try {
     const url = new URL(TRANSLATE_URL);
-    url.searchParams.set('client', 'gtx');
+    url.searchParams.set('client', 'dict-chrome-ex');
     url.searchParams.set('sl', 'auto');
     url.searchParams.set('tl', targetLanguage);
     url.searchParams.set('dt', 't');
